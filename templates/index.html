@@ -81,8 +81,57 @@
     {% for detect in list_of_feelings %}
     <div>{{ detect }}</div>
     {% endfor %}
-    <div>  <img src = "{{url_for('static', filename=file_url) }}" style = "width: 400px;"> </div>  
+    <div>  <img src = "{{url_for('static', filename=file_url) }}" style = "width: 400px;"> </div> 
+
+    {% if video %}
+    <div>
+      <p>Here is a cute video to help you get through the day:</p>
+    <video width="640" height="360" controls>
+      <source src="{{video}}" type="video/mp4">
+    </video>
+
+    
+      <p>Here are some inspirational quotes to help you get through the day:</p>
+    
+    {% else %}
+    
+      <p>Here are some inspirational quotes to help you keep doing well:</p>
+    
     {% endif %}
 
+    
+    <button onclick="displayQuote()">Get Inspirational Quote</button>
+    {% endif %}
+
+    
+
+
+    <script>
+      function displayQuote() {
+        const quotes = [  "The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt",  "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",  "An eye for an eye only ends up making the whole world blind. - Mahatma Gandhi",  "You can't cross the sea merely by standing and staring at the water. - Rabindranath Tagore",  "Hardships often prepare ordinary people for an extraordinary destiny. - C.S. Lewis",  "The only thing that stands between you and your dream is the will to try and the belief that it is actually possible. - Joel Brown",  "The only thing necessary for the triumph of evil is for good men to do nothing. - Edmund Burke",
+        "The only true limitation is the one you set for yourself. - Unknown",
+        "The only way to do great work is to love what you do. - Steve Jobs",
+        "The only way to have a friend is to be one. - Ralph Waldo Emerson",
+        "The only way to make sense out of change is to plunge into it, move with it, and join the dance. - Alan Watts",
+        "The only way to live is by accepting each minute as an unrepeatable miracle. - Storm Jameson",
+          "The only way to do great work is to be passionate about it. - Steve Jobs",
+            "The only way to deal with fear is to face it head on. - Unknown",  "The only way to discover the limits of the possible is to go beyond them into the impossible. - Arthur C. Clarke",  "The only way to find true happiness is to risk being completely cut open. - Chuck Palahniuk",
+          "The only way to get what you really want is to let go of what you don't want. - Unknown",
+            "The only way to see a rainbow is to look through the rain. - Unknown",
+              "The only way to get the best of an argument is to avoid it. - Dale Carnegie",
+        "The only way to get the best of an argument is to avoid it. - Dale Carnegie"]
+
+
+        ;
+    
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        alert(quotes[randomIndex]);
+      }
+    </script>
+    <div>
+    <li style="color: red; font-size: 14px;">
+      <a href="{{ url_for('realtime') }}">Live Meeting With Yourself</a>
+    </li>
+    </div>
    </body> 
  </html>

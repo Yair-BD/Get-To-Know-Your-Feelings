@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <style>
+        .home-link {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .home-link img {
+          height: 50px;
+          margin-right: 10px;
+        }
+
+        .center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+      </style>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>See straight to your heart</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <h3 class="mt-5">Live Streaming To Your Feelings</h3>
+            <img src="{{ url_for('video_feed') }}" width="100%">
+        </div>
+    </div>
+</div>
+    <li class="home-link">
+        <a href = "{{ url_for('upload_image') }}">
+            <img src="/static/sys_images/home.png" alt="Home icon">
+        </a>
+    </li>
+
+    <div class="center">
+        <button onclick="displayQuote()">Get an Inspirational Quote</button>
+      </div>
+      
+      <script>
+        function displayQuote() {
+          var quotes = [
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "The best time to plant a tree was 20 years ago. The second best time is now. - Chinese Proverb",
+            "Believe you can and you're halfway there. - Theodore Roosevelt",
+            "Success is not the key to happiness. Happiness is the key to success. - Albert Schweitzer",
+            "The best revenge is to be unlike him who performed the injury. - Marcus Aurelius"
+          ];
+          var quote = quotes[Math.floor(Math.random() * quotes.length)];
+          alert(quote);
+        }
+      </script>
+      
+</body>
+</html>

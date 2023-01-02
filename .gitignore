@@ -1,6 +1,9 @@
+.gitignore
 src
 __pycache__
 p.ipynb
 app_model.py
 venv
-.gitignore
+test.ipynb
+j
+static/uploads/*

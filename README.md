@@ -1,7 +1,9 @@
 # Get-To-Know-Your-Feelings
-If you ever wonder how your friend feel - now you have an answer.
+If you ever wonder how your friend are feeling  - now you can have an answer!
 
+With this new platform u can upload a picture and my cool tech will tell u exactly what the presented emotion
 
+The image passes through a face detector to capture every person in the image and then an ML Classification model will return the emotions that express in every face.
 # To use it:
 
 - Requirements: Python3.9
@@ -11,7 +13,7 @@ If you ever wonder how your friend feel - now you have an answer.
 - Install the requirments.txt file 
 > pip install -r requirments.txt
 
-- Run the run.cmd file or execute the following from the commandline
+- Run the app.py file or execute the following from the commandline
 > python app.py
 
 - Open LocalHost
@@ -26,7 +28,7 @@ If you ever wonder how your friend feel - now you have an answer.
 # For Example
 ![alt text](https://github.com/Yair-BD/Get-To-Know-Your-Feelings/blob/master/static/sys_images/Hello_page.jpg)
 
-After you have selected an image and pressed submit, the image and feeling will be on the screen
+After you have selected an image and pressed Upload, the image and feeling will be on the screen
 
 ![alt text](https://github.com/Yair-BD/Get-To-Know-Your-Feelings/blob/master/static/sys_images/Detect_display.jpg)
 
