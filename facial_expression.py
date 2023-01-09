@@ -10,11 +10,10 @@ for gpu in gpus:
 ## End section
 
 class EmotionDetections:
-    def __init__(self, image_path):
-        self.image_path = image_path
-        self.image_to_detect = cv2.imread(image_path)
+    def __init__(self, image, model):
+        self.image_to_detect = image
         self.faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_alt2.xml')
-        self.model = load_model('keras_model/model_5-49-0.62.hdf5')
+        self.model = model
         self.target = ['Angry','Disgust','Fear','Happy','Sad','Surprise','Neutral']
     
     def get_gray_image(self, im):
@@ -44,21 +43,19 @@ class EmotionDetections:
                 result = self.detect_face_emotions(face_crop) # predict the result using our model 
                 list_of_feelings.append(result)
                 cv2.putText(self.image_to_detect, result, (x,y), font, 1, (200,0,0), 3, cv2.LINE_AA) # write result on image 
-        head, tail = os.path.split(self.image_path)
-        print(f'static/uploads/result_emotion_{tail}')
-        #cv2.imshow('result', self.image_to_detect) # display the output image
-        cv2.imwrite(f'static/uploads/result_emotion_{tail}',self.image_to_detect) # save the output image
-        #cv2.waitKey(0) # hold window open until user presses a key
-        return list_of_feelings, f'uploads/result_emotion_{tail}'
 
-def main(image_addres):
-    image = EmotionDetections(image_addres)
+        return list_of_feelings, self.image_to_detect
+
+def main(image, model):
+    image = EmotionDetections(image, model)
     faces = image.get_faces_from_image()
-    final = image.crop_faces(faces)
-    return final
+    list, image_cv_format = image.crop_faces(faces)
+    return list, image_cv_format
         
         
     
 if __name__=='__main__':
-    image_addres = sys.argv[1]
-    main(image_addres)
+    image = sys.argv[1]
+    model = sys.argv[2]
+    
+    main(image, model)

@@ -76,12 +76,12 @@
 
     </form>
 
-    {% if file_url %}
+    {% if b64_data %}
     <div> Your are: </div>
     {% for detect in list_of_feelings %}
     <div>{{ detect }}</div>
     {% endfor %}
-    <div>  <img src = "{{url_for('static', filename=file_url) }}" style = "width: 400px;"> </div> 
+    <div>  <img src="data:image/jpg;base64,{{b64_data}}" style = "width: 500px;"> </div> 
 
     {% if video %}
     <div>

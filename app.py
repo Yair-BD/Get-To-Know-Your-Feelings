@@ -3,13 +3,16 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
-import emotions_detections_class
+import facial_expression
 from realtime_facial_expression import gen_frames
-import numpy as np
+import numpy as np, cv2, base64
+from keras.models import load_model
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'iwertywerty'
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/uploads'
+PATH_CUTE_VIDEO = 'static\\video\cute.mp4'
 
 photos = UploadSet('photos', IMAGES) # class, extensions
 configure_uploads(app, photos)
@@ -22,14 +25,14 @@ class UploadForm(FlaskForm): # class for upload photo form
             ]
         )
     submit = SubmitField('Upload') 
-
+    
 @app.route('/static/uploads/<filename>')
 def get_file(filename):
     return send_from_directory('static/uploads', filename)
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_frames(model), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/realtime')
 def realtime():
@@ -41,18 +44,25 @@ def upload_image():
     form = UploadForm()
     video = ''
     if form.validate_on_submit():
-        filename = photos.save(form.photo.data)
-        file_url = url_for('get_file', filename=filename)
-        list_of_feelings, path_to_image = emotions_detections_class.main(file_url[1:])
-        file_url = path_to_image
+        print("\n")
+        image_file = form.photo.data
+        
+        image_array = np.frombuffer(image_file.read(), np.uint8)
+        decoded_image = cv2.imdecode(image_array, cv2.IMREAD_UNCHANGED)
+
+        list_of_feelings, image_cv_format = facial_expression.main(decoded_image, model)
+        
+        _, jpeg_data = cv2.imencode('.jpg', image_cv_format)
+        b64_data = base64.b64encode(jpeg_data).decode()
+        
         if there_is_bad_feelings(list_of_feelings):
-            video = 'static\\video\cute.mp4'
+            video = PATH_CUTE_VIDEO 
           
     else:
         list_of_feelings = []
         video = ''
-        file_url = None
-    return render_template('index.html', form=form, file_url=file_url, list_of_feelings=list_of_feelings, video = video)
+        b64_data = None
+    return render_template('index.html', form=form, b64_data=b64_data, list_of_feelings=list_of_feelings, video = video)
 
 def there_is_bad_feelings(list_of_feelings):
     for feelings in list_of_feelings:
@@ -62,4 +72,5 @@ def there_is_bad_feelings(list_of_feelings):
  
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000, host='10.0.0.5')
+    model = load_model(f'keras_model/model_5-49-0.62.hdf5')
+    app.run()
